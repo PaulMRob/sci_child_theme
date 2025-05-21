@@ -40,7 +40,7 @@ function sci_register_publication_cpt() {
             'search_items' => 'Search Publications',
         ],
         'public' => true,
-        'publicly_queryable' => false,
+        'publicly_queryable' => true,
         'has_archive' => true,
         'rewrite' => ['slug' => 'publications'],
         'menu_icon' => 'dashicons-book-alt',
@@ -50,6 +50,7 @@ function sci_register_publication_cpt() {
 }
 add_action('init', 'sci_register_publication_cpt');
 
+// redirect single publication view to the archive page
 function sci_disable_single_publication_view() {
     if (is_singular('publication')) {
         wp_redirect(home_url('/publications/'), 301);

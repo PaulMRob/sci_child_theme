@@ -3,6 +3,7 @@
  Template:     umctheme3
 */
 
+
 .profile-pic {
     width: 180px;
     height: 180px;
@@ -13,3 +14,37 @@
     display: block;
   }
 
+.publication a .dashicons {
+    font-size: 20px;
+    color: #d13f19; /* Optional red tint for PDF */
+    transition: color 0.2s;
+}
+
+.publication a:hover .dashicons {
+    color: #a61900;
+}
+
+.publications {
+  padding-top: 100px; /* adjust for sticky header if needed */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.publications h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1em;
+  color: #111;
+}
+
+.publication {
+  margin-bottom: 2em;
+  line-height: 1.6;
+}
+
+.publication .icon {
+  width: 20px;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
