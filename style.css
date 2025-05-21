@@ -1,0 +1,15 @@
+/*
+ Theme Name:   People Child Theme
+ Template:     umctheme3
+*/
+
+.profile-pic {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%; /* makes it circular */
+    border: 2px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: block;
+  }
+
