@@ -69,3 +69,57 @@ function sci_modify_publication_archive_query($query) {
     }
 }
 add_action('pre_get_posts', 'sci_modify_publication_archive_query');
+
+function generate_bibtex($post_id) {
+    $authors = get_field('authors', $post_id);
+    $title = get_the_title($post_id);
+    $year = get_field('year', $post_id);
+    $url = get_field('pub_url', $post_id);
+    $source = get_field('source', $post_id);
+    $issn = get_field('issn', $post_id);
+    $doi = get_field('doi', $post_id);
+    $pubmed_id = get_field('pubmed_id', $post_id);
+
+    // Build BibTeX ID like SCI:Cha2025a
+    $bib_id = 'SCI:' . substr(preg_replace('/[^A-Za-z]/', '', $authors), 0, 3) . $year . 'a';
+
+    return "@InProceedings{{$bib_id},
+  author = {$authors},
+  title = {$title},
+  source/subtitle = {$source},
+  year = {$year}," .
+  ($issn ? "\n  ISSN = {$issn}," : "") .
+  ($doi ? "\n  title_url = {$doi}," : "") .
+  ($pubmed_id ? "\n  pubmed_id = {$pubmed_id}," : "") .
+  ($url ? "\n  url = {$url}" : "") . "
+}";
+}
+
+// register custom endpoint for sci.bib 
+add_action('init', function () {
+    add_rewrite_rule('^all-bibtex\.bib$', 'index.php?all_bibtex=1', 'top');
+    add_rewrite_tag('%all_bibtex%', '1');
+});
+
+add_action('template_redirect', function () {
+    if (get_query_var('all_bibtex')) {
+        header('Content-Type: text/plain');
+        header('Content-Disposition: inline; filename="all-publications.bib"');
+
+        $query = new WP_Query([
+            'post_type' => 'publication',
+            'posts_per_page' => -1,
+            'orderby' => 'meta_value_num', 
+            'meta_key' => 'year',
+            'order' => 'ASC', // is this the order we want??
+        ]);
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                echo generate_bibtex(get_the_ID()) . "\n\n";
+            }
+        }
+        exit;
+    }
+});
