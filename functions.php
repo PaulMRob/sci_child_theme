@@ -58,3 +58,14 @@ function sci_disable_single_publication_view() {
     }
 }
 add_action('template_redirect', 'sci_disable_single_publication_view');
+
+// order publications by date published
+function sci_modify_publication_archive_query($query) {
+    if (!is_admin() && $query->is_main_query() && is_post_type_archive('publication')) {
+        $query->set('orderby', 'date');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', 20);
+
+    }
+}
+add_action('pre_get_posts', 'sci_modify_publication_archive_query');
