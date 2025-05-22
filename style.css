@@ -152,3 +152,39 @@
 .bibtex-print-button:hover {
     background-color: #222;
 }
+
+.toggle-abstract {
+  margin-top: 0.5em;
+  padding: 0.2em 0.6em;
+  font-size: 0.9em;
+  color:#a61900;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.toggle-abstract .arrow {
+  display: inline-block;
+  font-size: 0.8em;
+  transition: transform 0.3s ease;
+}
+
+.toggle-abstract .arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.abstract-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 1s ease, opacity 0.3s ease;
+}
+
+.abstract-content.visible {
+  max-height: 500px; /* Adjust as needed */
+  opacity: 1;
+}

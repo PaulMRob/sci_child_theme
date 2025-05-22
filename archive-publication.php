@@ -64,6 +64,18 @@
                     <small>DOI: <a href="<?php echo esc_url($doi_url); ?>" target="_blank"><?php echo esc_html($doi_url); ?></a></small>
                 <?php endif; ?>
             </p>
+            <p>
+                <?php if ($abstract): ?>
+                <button class="toggle-abstract" type="button" data-target="abstract-<?php the_ID(); ?>">
+                    <span class="label">Abstract</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div id="abstract-<?php the_ID(); ?>" class="abstract-content">
+                    <p><?php echo esc_html($abstract); ?></p>
+                </div>
+                <?php endif; ?>
+            </p>
+        
         </div>
     <?php endwhile; else: ?>
         <p>No publications found.</p>
@@ -128,6 +140,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// show abstract button
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.toggle-abstract').forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-target');
+      const abstractDiv = document.getElementById(targetId);
+      const arrow = button.querySelector('.arrow');
+      const label = button.querySelector('.label');
+
+      abstractDiv.classList.toggle('visible');
+      const isVisible = abstractDiv.classList.contains('visible');
+
+      label.textContent = isVisible ? 'Hide' : 'Abstract';
+      arrow.classList.toggle('rotated', isVisible);
+    });
+  });
+});
+
 </script>
 
 <?php get_footer(); ?>
