@@ -50,6 +50,13 @@
         <p><?php the_field('background'); ?></p>
       <?php endif; ?>
 
+      <?php 
+      $field = get_field('current_responsibilities');
+      if( $field ): ?>
+        <h2>Current Responsibilities</h2>
+        <p><?php the_field('current_responsibilities'); ?></p>
+      <?php endif; ?>
+
       <?php
       $field = get_field('research_interests');
       if( $field ): ?>
