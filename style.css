@@ -3,6 +3,13 @@
  Template:     umctheme3
 */
 
+.uu-footer-dept-logo {
+  width: 100px !important;
+}
+
+.person-profile {
+  margin: 10rem auto 6rem auto;
+}
 
 .profile-pic {
     width: 180px;
@@ -185,6 +192,6 @@
 }
 
 .abstract-content.visible {
-  max-height: 500px; /* Adjust as needed */
+  max-height: 500px;
   opacity: 1;
 }

@@ -2,15 +2,21 @@
 
 <main class="person-profile">
   <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-    <div class="profile-header">
+
+      <div class="profile-header">
       <?php if (has_post_thumbnail()) : ?>
         <div class="profile-photo"><?php the_post_thumbnail('medium'); ?></div>
       <?php endif; ?>
-      <h1><?php the_title(); ?></h1>
+    
     </div>
 
     <div class="profile-meta">
-      <img class="profile-pic" src="<?php the_field('profile_picture'); ?>" alt="Profile of <?php the_title(); ?>" />
+      <?php
+        $field = get_field('profile_picture');
+          if( $field ): ?>
+            <img class="profile-pic" src="<?php the_field('profile_picture'); ?>" alt="Profile of <?php the_title(); ?>" />
+      <?php endif; ?>      
+      
       <h2> <?php the_field('full_name'); ?> - <?php the_field('job_title') ?></h2>
       <?php the_field('positions'); ?>
       <p> <?php the_field('office_desk'); ?> </p>
@@ -28,6 +34,12 @@
       <?php endif; ?>
 
       <p> <a href="mailto:<?php the_field('email'); ?>"><?php the_field('email'); ?></a></p>
+
+       <?php 
+        $field = get_field('supervisor');
+          if( $field ): ?>
+           <p>Supervisor: <?php the_field('supervisor'); ?></p>
+      <?php endif; ?>
       
       <?php 
         $field = get_field('personal_page');
