@@ -125,3 +125,44 @@ add_action('template_redirect', function () {
         exit;
     }
 });
+
+//PERFORMANCE IMPROVEMENTS
+//footer
+add_action('wp_footer', function () {
+    ?>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const img = document.querySelector(".uu-footer-dept-logo img");
+      if (img && !img.hasAttribute("width")) {
+        img.setAttribute("width", "80");
+        img.setAttribute("height", "48.45"); 
+      }
+    });
+    </script>
+    <?php
+});
+
+// dynamically add width and height to all imgs
+add_filter('the_content', function ($content) {
+    return preg_replace_callback('/<img([^>]+)>/', function ($matches) {
+        $img = $matches[0];
+        if (strpos($img, 'width=') !== false && strpos($img, 'height=') !== false) {
+            return $img;
+        }
+
+        if (preg_match('/src="([^"]+)"/', $img, $srcMatch)) {
+            $src = $srcMatch[1];
+            $path = str_replace(home_url(), ABSPATH, $src);
+            if (file_exists($path)) {
+                [$width, $height] = getimagesize($path);
+                return preg_replace(
+                    '/<img/',
+                    "<img width=\"$width\" height=\"$height\"",
+                    $img
+                );
+            }
+        }
+
+        return $img;
+    }, $content);
+});
